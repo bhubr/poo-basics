@@ -1,12 +1,23 @@
 // class sorte de "template" pour creer des objets
-//
+
+// visibilite : public, protected, private (attributs comme methodes)
+
 class Character {
-  life = 20;
+  protected _life = 20;
 
-  name: string;
+  // raccourci pour declaration d'attribut et assignation
+  constructor(public name: string) {}
 
-  constructor(name: string) {
-    this.name = name;
+  getLife() {
+    return this._life;
+  }
+
+  // setLife(newValue: number) {
+  //   this._life = newValue;
+  // }
+
+  takeDamage(amount: number) {
+    this._life -= amount;
   }
 
   sayHello() {
@@ -16,7 +27,25 @@ class Character {
 
 class Wizard extends Character {
   attack(opponent: Character) {
-    opponent.life -= 2;
+    opponent.takeDamage(2);
+  }
+
+  showHealth() {
+    console.log(this._life);
+  }
+}
+
+class Board {
+  characters: Character[] = [];
+
+  addCharacter(ch: Character) {
+    this.characters.push(ch);
+  }
+
+  logCharacters() {
+    this.characters.forEach((ch) => {
+      console.log(`Character ${ch.name} has ${ch.getLife()} health points`);
+    });
   }
 }
 
@@ -28,4 +57,10 @@ const galadriel = new Wizard('Galadriel');
 
 gandalf.sayHello();
 galadriel.attack(evilOrc);
-console.log(evilOrc);
+// console.log(evilOrc);
+galadriel.showHealth();
+
+const board = new Board();
+board.addCharacter(evilOrc);
+board.addCharacter(galadriel);
+board.logCharacters();
